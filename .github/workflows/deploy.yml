@@ -38,8 +38,22 @@ jobs:
         env:
           GITHUB_ACTIONS: 'true'
 
+      - name: Locate output and set OUT_DIR
+        id: locate
+        run: |
+          OUT=$(find .output -name "index.html" 2>/dev/null | head -1)
+          if [ -z "$OUT" ]; then
+            echo "ERROR: could not find index.html under .output"
+            find . -maxdepth 4 -name "index.html" | head -20
+            exit 1
+          fi
+          DIR=$(dirname "$OUT")
+          echo "dir=$DIR" >> "$GITHUB_OUTPUT"
+          echo "Found output at: $DIR"
+          find "$DIR" -maxdepth 2 -type f | head -30
+
       - name: Copy 404 fallback for SPA routing
-        run: cp .output/public/index.html .output/public/404.html
+        run: cp "${{ steps.locate.outputs.dir }}/index.html" "${{ steps.locate.outputs.dir }}/404.html"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -47,7 +61,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.output/public'
+          path: ${{ steps.locate.outputs.dir }}
 
       - name: Deploy to GitHub Pages
         id: deployment
