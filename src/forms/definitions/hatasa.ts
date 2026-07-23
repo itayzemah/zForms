@@ -59,6 +59,13 @@ export const hatasa: FormDef = {
         { label: 'רוני', value: 'רוני' },
         { label: 'דין', value: 'דין' },
         { label: 'איתן', value: 'איתן' },
+        { label: 'ראני', value: 'ראני' },
+        { label: 'קובי', value: 'קובי' },
+        { label: 'מיכאל', value: 'מיכאל' },
+        { label: 'אייל', value: 'אייל' },
+        { label: 'רומן', value: 'רומן' },
+        { label: 'אריק', value: 'אריק' },
+        { label: 'אוהד', value: 'אוהד' },
       ],
     },
     {
