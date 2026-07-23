@@ -38,19 +38,26 @@ jobs:
         env:
           GITHUB_ACTIONS: 'true'
 
+      - name: List build output
+        run: |
+          echo "=== .output (if exists) ==="
+          find .output -maxdepth 5 -type f 2>/dev/null | head -60 || echo "(no .output dir)"
+          echo "=== dist (if exists) ==="
+          find dist -maxdepth 5 -type f 2>/dev/null | head -20 || echo "(no dist dir)"
+          echo "=== .tanstack (if exists) ==="
+          find .tanstack -maxdepth 5 -type f 2>/dev/null | head -20 || echo "(no .tanstack dir)"
+
       - name: Locate output and set OUT_DIR
         id: locate
         run: |
-          OUT=$(find .output -name "index.html" 2>/dev/null | head -1)
+          OUT=$(find .output dist -name "index.html" 2>/dev/null | head -1)
           if [ -z "$OUT" ]; then
-            echo "ERROR: could not find index.html under .output"
-            find . -maxdepth 4 -name "index.html" | head -20
+            echo "ERROR: could not find index.html"
             exit 1
           fi
           DIR=$(dirname "$OUT")
           echo "dir=$DIR" >> "$GITHUB_OUTPUT"
           echo "Found output at: $DIR"
-          find "$DIR" -maxdepth 2 -type f | head -30
 
       - name: Copy 404 fallback for SPA routing
         run: cp "${{ steps.locate.outputs.dir }}/index.html" "${{ steps.locate.outputs.dir }}/404.html"
