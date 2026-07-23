@@ -38,29 +38,10 @@ jobs:
         env:
           GITHUB_ACTIONS: 'true'
 
-      - name: List build output
+      - name: Prepare static output
         run: |
-          echo "=== .output (if exists) ==="
-          find .output -maxdepth 5 -type f 2>/dev/null | head -60 || echo "(no .output dir)"
-          echo "=== dist (if exists) ==="
-          find dist -maxdepth 5 -type f 2>/dev/null | head -20 || echo "(no dist dir)"
-          echo "=== .tanstack (if exists) ==="
-          find .tanstack -maxdepth 5 -type f 2>/dev/null | head -20 || echo "(no .tanstack dir)"
-
-      - name: Locate output and set OUT_DIR
-        id: locate
-        run: |
-          OUT=$(find .output dist -name "index.html" 2>/dev/null | head -1)
-          if [ -z "$OUT" ]; then
-            echo "ERROR: could not find index.html"
-            exit 1
-          fi
-          DIR=$(dirname "$OUT")
-          echo "dir=$DIR" >> "$GITHUB_OUTPUT"
-          echo "Found output at: $DIR"
-
-      - name: Copy 404 fallback for SPA routing
-        run: cp "${{ steps.locate.outputs.dir }}/index.html" "${{ steps.locate.outputs.dir }}/404.html"
+          cp dist/client/_shell.html dist/client/index.html
+          cp dist/client/index.html dist/client/404.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -68,7 +49,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ steps.locate.outputs.dir }}
+          path: dist/client
 
       - name: Deploy to GitHub Pages
         id: deployment
