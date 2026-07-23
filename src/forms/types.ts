@@ -14,7 +14,8 @@ type BaseField = {
 }
 
 export type FieldDef =
-  | (BaseField & { type: 'text' | 'textarea' })
+  | (BaseField & { type: 'text'; shortcuts?: Array<{ label: string; value: string }> })
+  | (BaseField & { type: 'textarea' })
   | (BaseField & { type: 'number'; min?: number; max?: number })
   | (BaseField & { type: 'time' })
   | (BaseField & { type: 'select'; options: Array<SelectOption> })
@@ -33,6 +34,8 @@ export type FormDef = {
   /** Enable RTL layout (e.g. Hebrew forms). */
   rtl?: boolean
   fields: Array<FieldDef>
+  /** Override the default label:value formatter for WhatsApp output. */
+  formatOutput?: (values: FormValues) => string
 }
 
 /** A submitted form: field name -> value (all captured as strings). */

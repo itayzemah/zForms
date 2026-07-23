@@ -19,6 +19,8 @@ function displayValue(
  * Empty fields are skipped.
  */
 export function formatSubmission(form: FormDef, values: FormValues): string {
+  if (form.formatOutput) return form.formatOutput(values)
+
   const lines: Array<string> = [`*${form.title}*`, '']
 
   for (const field of form.fields) {

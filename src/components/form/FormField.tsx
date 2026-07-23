@@ -79,21 +79,34 @@ export function FormField({
           onChange={(e) => api.handleChange(e.target.value)}
         />
       ) : (
-        <Input
-          {...commonProps}
-          type={
-            field.type === 'number'
-              ? 'number'
-              : field.type === 'time'
-                ? 'time'
-                : 'text'
-          }
-          value={value}
-          placeholder={field.placeholder}
-          min={field.type === 'number' ? field.min : undefined}
-          max={field.type === 'number' ? field.max : undefined}
-          onChange={(e) => api.handleChange(e.target.value)}
-        />
+        <>
+          <Input
+            {...commonProps}
+            type={
+              field.type === 'number'
+                ? 'number'
+                : field.type === 'time'
+                  ? 'time'
+                  : 'text'
+            }
+            value={value}
+            placeholder={field.placeholder}
+            min={field.type === 'number' ? field.min : undefined}
+            max={field.type === 'number' ? field.max : undefined}
+            onChange={(e) => api.handleChange(e.target.value)}
+          />
+          {field.type === 'text' && field.shortcuts?.map((sc) => (
+            <label key={sc.value} className="flex items-center gap-2 text-sm cursor-pointer w-fit">
+              <input
+                type="checkbox"
+                className="h-4 w-4 cursor-pointer"
+                checked={value === sc.value}
+                onChange={(e) => api.handleChange(e.target.checked ? sc.value : '')}
+              />
+              {sc.label}
+            </label>
+          ))}
+        </>
       )}
 
       {field.description ? (
