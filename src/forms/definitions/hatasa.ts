@@ -22,6 +22,7 @@ const PHONES = [
   { label: 'ניקיטה - 050-876-5328', value: 'ניקיטה - 050-876-5328' },
   { label: 'אלון - 054-525-0666', value: 'אלון - 054-525-0666' },
   { label: 'איתי - 052-875-3953', value: 'איתי - 052-875-3953' },
+  { label: 'חמ"ל - 0529019328', value: 'חמ"ל - 0529019328' },
 ]
 
 function hhmm(d: Date): string {
@@ -51,7 +52,14 @@ export const hatasa: FormDef = {
       type: 'select',
       required: true,
       placeholder: 'בחר שם',
-      options: NAMES,
+      options: [
+        { label: 'אורן', value: 'אורן' },
+        { label: 'אלון', value: 'אלון' },
+        { label: 'אלעזר', value: 'אלעזר' },
+        { label: 'רוני', value: 'רוני' },
+        { label: 'דין', value: 'דין' },
+        { label: 'איתן', value: 'איתן' },
+      ],
     },
     {
       name: 'meafil',
@@ -66,8 +74,13 @@ export const hatasa: FormDef = {
     {
       name: 'misparSiduri',
       label: 'מספר סידורי',
-      type: 'static',
-      value: '1748FEV3HMA824181240',
+      type: 'select',
+      required: true,
+      placeholder: 'בחר כלי',
+      options: [
+        { label: 'חפ"ק - 1748FEV3HMA824181240', value: '1748FEV3HMA824181240' },
+        { label: 'סיור - 1748FEV3HMK824411064', value: '1748FEV3HMK824411064' },
+      ],
     },
     { name: 'bereshit', label: 'בראשית', type: 'static', value: '243,242,102' },
     { name: 'govah', label: 'גובה', type: 'static', value: 'עד 100 מעפ"ש' },
@@ -102,6 +115,7 @@ export const hatasa: FormDef = {
       required: true,
       placeholder: 'בחר טלפון',
       options: PHONES,
+      defaultValue: 'חמ"ל - 0529019328',
     },
     { name: 'hativa', label: 'חטיבה', type: 'static', value: 'עציון' },
     {
